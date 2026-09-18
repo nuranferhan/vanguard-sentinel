@@ -1,0 +1,49 @@
+{
+  "title": "Vanguard Sentinel - Gateway Overview",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Toplam İstek (İşleme Türüne Göre)",
+      "targets": [
+        { "expr": "sum(rate(vanguard_requests_total[1m])) by (action)" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Engellenen İstekler (Nedene Göre)",
+      "targets": [
+        { "expr": "sum(rate(vanguard_blocked_requests_total[1m])) by (reason)" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Isolation Forest Anomali Skoru",
+      "targets": [
+        { "expr": "vanguard_last_anomaly_score" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Autoencoder Yeniden Yapılandırma Hatası",
+      "targets": [
+        { "expr": "vanguard_last_autoencoder_error" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Aktif Kara Liste Sayısı",
+      "targets": [
+        { "expr": "vanguard_active_blacklist_entries" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Aktif WebSocket Bağlantısı",
+      "targets": [
+        { "expr": "vanguard_active_websocket_connections" }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}

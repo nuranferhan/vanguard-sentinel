@@ -1,0 +1,81 @@
+name: Vanguard Sentinel CI/CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python kurulumu
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Bağımlılıkları yükle
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Lint (ruff)
+        working-directory: backend
+        run: ruff check app
+
+      - name: Testleri çalıştır
+        working-directory: backend
+        env:
+          SKIP_REDIS_TESTS: "0"
+        run: pytest -v
+
+  build-and-push:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker Buildx kurulumu
+        uses: docker/setup-buildx-action@v3
+
+      - name: Container registry girişi
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Gateway imajını derle ve gönder
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/gateway:${{ github.sha }}
+
+      - name: Dashboard imajını derle ve gönder
+        uses: docker/build-push-action@v6
+        with:
+          context: dashboard
+          push: true
+          tags: ghcr.io/${{ github.repository }}/dashboard:${{ github.sha }}
+
+  deploy-staging:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Staging ortamına bilgilendirme
+        run: echo "Deploy adımı, hedef Kubernetes/staging altyapısına göre burada tanımlanır (kubectl/helm upgrade)."

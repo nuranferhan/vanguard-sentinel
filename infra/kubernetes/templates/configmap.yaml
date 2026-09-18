@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vanguard-gateway-config
+data:
+  REDIS_URL: "redis://redis-cluster:6379/0"
+  UPSTREAM_GAME_SERVER: "http://game-server:9000"
+  PROMETHEUS_ENABLED: "true"
+  EVENT_STREAMING_ENABLED: "true"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"

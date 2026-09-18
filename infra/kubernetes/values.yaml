@@ -1,0 +1,27 @@
+gateway:
+  image: vanguard-sentinel-gateway:latest
+  replicaCount: 3
+  port: 8000
+  udpPort: 9200
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+
+redis:
+  image: redis:7-alpine
+  clusterEnabled: true
+  nodeCount: 6
+
+dashboard:
+  image: vanguard-sentinel-dashboard:latest
+  replicaCount: 2
+  port: 3000

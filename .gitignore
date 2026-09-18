@@ -1,0 +1,40 @@
+# --- Secrets & environment ---
+.env
+.env.local
+!.env.example
+
+# --- TLS / mTLS certificates & keys (never commit these) ---
+certs/*.key
+certs/*.pem
+certs/*.crt
+certs/*.csr
+certs/*.srl
+!backend/certs/.gitkeep
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# --- ML model binaries (fetched via scripts/download_models.py) ---
+*.joblib
+*.pkl
+!backend/app/ai/models/.gitkeep
+
+# --- GeoIP databases ---
+*.mmdb
+
+# --- Node / frontend ---
+node_modules/
+dist/
+.vite/
+
+# --- OS / editor ---
+.DS_Store
+*.log
+.idea/
+.vscode/
