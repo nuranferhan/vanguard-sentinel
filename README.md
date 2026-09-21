@@ -1,6 +1,6 @@
 # Vanguard Sentinel
 
-Dağıtık oyun sunucuları için AI destekli API Gateway ve DDoS/Exploit engelleyici.
+Dağıtık oyun sunucuları için AI destekli API Gateway ve DDoS/Exploit engelleyici. 
 
 
 ## Mimari
