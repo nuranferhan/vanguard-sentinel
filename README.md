@@ -5,8 +5,6 @@ Dağıtık oyun sunucuları için AI destekli API Gateway ve DDoS/Exploit engell
 
 ## Mimari
 
-Ayrıntılı akış diyagramı ve katman açıklamaları için `docs/ARCHITECTURE.md` dosyasına bakın.
-
 ```
 İstemci -> [mTLS] -> Vanguard Gateway -> [Redis + AI Ensemble] -> Oyun Sunucusu
                               |
