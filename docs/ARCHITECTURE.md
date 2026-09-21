@@ -1,9 +1,5 @@
 # Vanguard Sentinel Mimari Dokümanı
 
-## Genel Akış
-
-İstemci -> [mTLS/TLS] -> Vanguard Gateway -> [Redis: rate limit, blacklist, nonce, feature store] -> [AI Ensemble: Isolation Forest + Autoencoder] -> Upstream Oyun Sunucusu
-
 ## Protokol Katmanı
 
 - HTTP: FastAPI üzerinden REST tabanlı oyun aksiyonları
